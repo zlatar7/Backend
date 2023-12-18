@@ -1,0 +1,1 @@
+Creacion de los archivos userManager y productManager, con sus respectivas clases, para la insercion y lectura de "usuarios" y "productos"
