@@ -1,0 +1,26 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Creacion de los archivos userManager y productManager, con sus respectivas clases, para la insercion y lectura de \"usuarios\" y \"productos\". Las funciones son asincronas debido a que fueron hechas con \"fyle system\".",
+  "main": "productManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon productManager.js",
+    "dev":"nodemon userManager.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlatar7/Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zlatar7/Backend/issues"
+  },
+  "homepage": "https://github.com/zlatar7/Backend#readme",
+  "dependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "type": "module"
+}

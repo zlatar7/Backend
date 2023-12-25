@@ -1,66 +1,103 @@
-class userManager {
-    static #users = [];
-  
-    create(data) {
-      const name = data.hasOwnProperty('name')
-      const photo = data.hasOwnProperty('photo')
-      const email = data.hasOwnProperty('email')
+import { promises } from 'fs';
 
-      if (name && photo && email) {
-
-
-        if ( userManager.#users.length > 0) {
-            //Asignación del ID al objeto (Array con productos existentes)
-            const ultimoElemento = userManager.#users[userManager.#users.length -1];
-            const id = ultimoElemento.id + 1;
-            const objetoConId = {...data, id};
-            
-            userManager.#users.push(objetoConId)
-
-            return console.log(`El usuario ${objetoConId.name} se ha agregado correctamente`)
-
-        } else {
-            //Asiganción del ID al objeto (si el Array de productos está vacío)
-            const objetoConId = { id:1 , ...data }
-            userManager.#users.push(objetoConId)
-
-            return console.log(`El usuario ${objetoConId.name} se ha agregado correctamente`)
-        }
-      
-    } else {
-        console.log('Complete todos los campos')
+class UserManager{
+  constructor (path) {
+      this.path = path,
+      this.product = "[]"
     }
-}
-  
-    read() {
-      return userManager.#users;
-    }
-  
-    readOne(id) {
-        const elemento = userManager.#users.find((item) => item.id === id)
 
-        if (elemento) {
-            return elemento
-        } else {
-            return "El ID ingresado es inexistente"
-        }
-    }
+  async create(objeto){
+      try {
+          const name = objeto.hasOwnProperty('name')
+          const photo = objeto.hasOwnProperty('photo')
+          const email = objeto.hasOwnProperty('email')
+
+          if (name && photo && email) {
+
+              const contenido = await promises.readFile(this.path, "utf-8")
+              const info = JSON.parse(contenido)
+  
+              //Asiganción del ID al objeto (Array con productos existentes)
+
+              if (info.length > 0) {
+                  const ultimoElemento = info[info.length -1];
+                  const id = ultimoElemento.id + 1;
+                  const objetoConId = {...objeto, id};
+
+                  //Se agrega el objeto al array 
+                  const arrayCompleto = JSON.stringify([...info, objetoConId]);
+  
+              await promises.writeFile(this.path, arrayCompleto)
+
+              return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+                  
+              } else {
+
+                  //Asiganción del ID al objeto (si el Array de productos está vacío)
+                  const id = 1
+                  const objetoConId = {...objeto, id} 
+              
+                  const arrayCompleto = JSON.stringify([...info, objetoConId])
+                  
+                  await promises.writeFile(this.path, arrayCompleto)
+              
+                  return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+              }
+
+          } else {
+              return 'Complete todos los campos'
+          }
+          }            
+      catch (error) {
+          console.log(error)
+          }
   }
+
+  async readOne(numId){
+      try {
+          const contenido = await promises.readFile(this.path, "utf-8");
+          const info = JSON.parse(contenido);
+
+          const elementoEncontrado = info.find(elemento => elemento.id == numId)
+        
+          if(elementoEncontrado) {
+              return elementoEncontrado
+          } else {
+              return 'No se ha encontrado ningún elemento con ese ID'
+          }
+
+
+      } catch (error) {
+          console.log(error)
+      }
+  }
+
+  async read(){
+      try {
+          const contenido = await promises.readFile(this.path, "utf-8");
+          const info = JSON.parse(contenido);
+
+          return info
+
+      } catch (error) { 
+          console.log(error)
+      }
+  }
+}
+
+const user1 = new UserManager("data/users.txt");
   
-  const UserManager = new userManager();
-  
-  UserManager.create({
-    name: "Guido",
+user1.create({
+  name: "Guido",
+  photo: "https://images.com",
+  email: "guido@gmail.com",
+});
+
+user1.create({
+    name: "Sofia",
     photo: "https://images.com",
-    email: "guido@gmail.com",
-  });
-  
-    UserManager.create({
-        name: "Sofia",
-        photo: "https://images.com",
-        email: "Sofia1@hotmail.com",
-  });
+    email: "Sofia1@hotmail.com",
+});
 
-
-console.log(UserManager.read());
-console.log(UserManager.readOne(2));
+user1.read().then((response)=>console.log(response));
+user1.readOne(2).then((response)=>console.log(response));

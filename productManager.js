@@ -1,69 +1,100 @@
-class ProductManager {
-    
-    static #products = [];
+import { promises } from 'fs';
 
-    create(data) {
-        const title = data.hasOwnProperty('title')
-        const photo = data.hasOwnProperty('photo')
-        const price = data.hasOwnProperty('price')
-        const stock = data.hasOwnProperty('stock')
+class ProductManager{
+  constructor (path) {
+      this.path = path,
+      this.product = "[]"
+    }
+
+  async create(objeto){
+      try {
+          const title = objeto.hasOwnProperty('title')
+          const photo = objeto.hasOwnProperty('photo')
+          const price = objeto.hasOwnProperty('price')
+          const stock = objeto.hasOwnProperty('stock')
+          
+
+          if (title && photo && price && stock) {
+
+              const contenido = await promises.readFile(this.path, "utf-8")
+              const info = JSON.parse(contenido)
   
-        if (title && photo && price && stock) {
+              //Asiganción del ID al objeto (Array con productos existentes)
+
+              if (info.length > 0) {
+                  const ultimoElemento = info[info.length -1];
+                  const id = ultimoElemento.id + 1;
+                  const objetoConId = {...objeto, id};
+
+                  //Se agrega el objeto al array 
+                  const arrayCompleto = JSON.stringify([...info, objetoConId]);
   
-  
-          if ( ProductManager.#products.length > 0) {
-              //Asignación del ID al objeto (Array con productos existentes)
-              const ultimoElemento = ProductManager.#products[ProductManager.#products.length -1];
-              const id = ultimoElemento.id + 1;
-              const objetoConId = {...data, id};
+              await promises.writeFile(this.path, arrayCompleto)
+
+              return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+                  
+              } else {
+
+                  //Asiganción del ID al objeto (si el Array de productos está vacío)
+                  const id = 1
+                  const objetoConId = {...objeto, id} 
               
-              ProductManager.#products.push(objetoConId)
-  
-              return console.log(`El producto ${objetoConId.title} se ha agregado correctamente`)
-  
+                  const arrayCompleto = JSON.stringify([...info, objetoConId])
+                  
+                  await promises.writeFile(this.path, arrayCompleto)
+              
+                  return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+              }
+
           } else {
-              //Asiganción del ID al objeto (si el Array de productos está vacío)
-              const objetoConId = { id:1 , ...data }
-              ProductManager.#products.push(objetoConId)
-  
-              return console.log(`El producto ${objetoConId.title} se ha agregado correctamente`)
+              return 'Complete todos los campos'
           }
+          }            
+      catch (error) {
+          console.log(error)
+          }
+  }
+
+  async readOne(numId){
+      try {
+          const contenido = await promises.readFile(this.path, "utf-8");
+          const info = JSON.parse(contenido);
+
+          const elementoEncontrado = info.find(elemento => elemento.id == numId)
         
-      } else {
-          console.log('Complete todos los campos')
+          if(elementoEncontrado) {
+              return elementoEncontrado
+          } else {
+              return 'No se ha encontrado ningún elemento con ese ID'
+          }
+
+
+      } catch (error) {
+          console.log(error)
       }
   }
-  
-    read() {
-      return ProductManager.#products;
-    }
-  
-    readOne(id) {
-        const elemento = ProductManager.#products.find((item) => item.id === id)
 
-        if (elemento) {
-            return elemento
-        } else {
-            return "El ID ingresado es inexistente"
-        }
-    }
+  async read(){
+      try {
+          const contenido = await promises.readFile(this.path, "utf-8");
+          const info = JSON.parse(contenido);
+
+          return info
+
+      } catch (error) { 
+          console.log(error)
+      }
   }
-  
-  const ProdManager = new ProductManager();
-  
-  ProdManager.create({
-    title: "Camisa",
-    photo: "https://image.com",
-    price: 18500,
-    stock: 5,
-  });
-  
-  ProdManager.create({
-    title: "Jean",
-    photo: "https://image.com",
-    price: 25000,
-    stock: 8,
-  });
-  
-  console.log(ProdManager.read());
-  console.log(ProdManager.readOne(2));
+}
+
+const productos1 = new ProductManager('data/products.txt')
+
+productos1.create({
+  title: "Jean",
+  photo: "https://image.com",
+  price: 29900,
+  stock: 4,
+});
+
+productos1.read().then((response)=>console.log(response));
+productos1.readOne(2).then((response)=>console.log(response));
