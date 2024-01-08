@@ -1,1 +1,0 @@
-[{"name":"Sofia","photo":"https://images.com","email":"Sofia1@hotmail.com","id":1},{"name":"Sofia","photo":"https://images.com","email":"Sofia1@hotmail.com","id":2},{"name":"Guido","photo":"https://images.com","email":"guido@gmail.com","id":3}]

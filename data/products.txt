@@ -1,1 +1,0 @@
-[{"title":"Camisa","photo":"https://image.com","price":18500,"stock":5,"id":1},{"title":"Jean","photo":"https://image.com","price":29900,"stock":4,"id":2}]

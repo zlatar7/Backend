@@ -1,1 +1,2 @@
 Creacion de los archivos userManager y productManager, con sus respectivas clases, para la insercion y lectura de "usuarios" y "productos". Las funciones son asincronas debido a que fueron hechas con "fyle system".
+Tambien se creo en el archivo del servidor (server.js) cuatro endpoints de lectura de los "usuarios" y "productos".
