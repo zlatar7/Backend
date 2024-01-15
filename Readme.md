@@ -1,2 +1,2 @@
-Creacion de los archivos userManager y productManager, con sus respectivas clases, para la insercion y lectura de "usuarios" y "productos". Las funciones son asincronas debido a que fueron hechas con "fyle system".
-Tambien se creo en el archivo del servidor (server.js) cuatro endpoints de lectura de los "usuarios" y "productos".
+El proyecto se basa en la creacion de una api-rest donde se manejan datos de "Usuarios", "Productos" y "Ordenes" a traves de los archivos Manager de la carpeta "data/fs". La persistencia es manipulada mediante los modulos de "fs" y de manera asincrona, con objetos JSON. El archivo "server.js" es donde se encuentra la inicializacion del servidor utilizando node y express, como asi tambien los middlewares necesarios para manejar los datos y errores de manera optima.
+Los endpoints estan todos ubicados en la carpeta "routers" con sus respectivas rutas, middlewares y funciones.
