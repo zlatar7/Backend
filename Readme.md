@@ -1,2 +1,3 @@
 El proyecto se basa en la creacion de una api-rest donde se manejan datos de "Usuarios", "Productos" y "Ordenes" a traves de los archivos Manager de la carpeta "data/fs". La persistencia es manipulada mediante los modulos de "fs" y de manera asincrona, con objetos JSON. El archivo "server.js" es donde se encuentra la inicializacion del servidor utilizando node y express, como asi tambien los middlewares necesarios para manejar los datos y errores de manera optima.
 Los endpoints estan todos ubicados en la carpeta "routers" con sus respectivas rutas, middlewares y funciones.
+Ademas se ha implementado el uso de servidor "socket.io" para hacer carga y renderizacion de productos en tiempo real hacia todos los clientes conectados al puerto localhost:8000

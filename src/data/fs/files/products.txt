@@ -1,5 +1,5 @@
 [
-    {"title":"short","photo":"https://image.com","price":21500,"stock":7,"id":"1"},
-    {"title":"Jean","photo":"https://image.com","price":29900,"stock":4,"id":"8e20a448d670947b538c3ad1"},
-    {"title":"Camisa","photo":"https://image.com","price":17000,"stock":6,"id":"8074d2eaef82da81b8101fdb"}
+    {"title":"short","photo":"./images/short.png","price":21500,"stock":7,"id":"1"},
+    {"title":"Jean","photo":"./images/jean.png","price":29900,"stock":4,"id":"8e20a448d670947b538c3ad1"},
+    {"title":"Camisa","photo":"./images/camisa.png","price":17000,"stock":6,"id":"8074d2eaef82da81b8101fdb"}
 ]

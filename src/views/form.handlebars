@@ -1,0 +1,35 @@
+<main class="flex-grow-1 d-flex w-100 flex-wrap justify-content-evenly">
+  <section
+    class="w-50 d-flex flex-column justify-content-start align-items-center"
+    style="min-width: 380px; margin-top: 5em;"
+  >
+    <h2 class="mt-5 mb-2 text-center" style="color: #00378a;">ADD PRODUCT</h2>
+    <form
+      style="max-width: 360px;"
+      class="w-100 d-flex flex-column justify-content-center items-align-center"
+    >
+      <fieldset class="mb-3 text-center">
+        <label for="title" class="form-label mb-0">Title</label>
+        <input type="text" class="form-control" id="title" />
+      </fieldset>
+      <fieldset class="mb-3 text-center">
+        <label for="photo" class="form-label mb-0">Photo</label>
+        <input type="text" class="form-control" id="photo" />
+      </fieldset>
+      <fieldset class="mb-3 text-center">
+        <label for="price" class="form-label mb-0">Price</label>
+        <input type="number" class="form-control" id="price" />
+      </fieldset>
+      <fieldset class="mb-3 text-center">
+        <label for="stock" class="form-label mb-0">Stock</label>
+        <input type="number" class="form-control" id="stock" />
+      </fieldset>
+      <button
+        id="newProduct"
+        type="button"
+        class="w-100 btn btn-primary">ADD</button>
+    </form>
+  </section>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/real.js"></script>
