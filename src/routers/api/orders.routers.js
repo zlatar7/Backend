@@ -1,34 +1,47 @@
 import { Router } from "express";
-import order from "../../data/fs/orders.fs.js";
+// import order from "../../data/fs/orders.fs.js";
+import { order } from "../../data/mongo/manager.mongo.js";
 import propsOrders from "../../middlewares/propsOrders.js";
 import propsOrdersUpdate from "../../middlewares/propsOrdersUpdate.js";
 
 const ordersRouters = Router();
 
+ordersRouters.get("/total/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const reportBill = await order.report(uid);
+    return res.json({ statusCode: 200, response: reportBill });
+  } catch (error) {
+    return next(error);
+  }
+});
 
 ordersRouters.get("/", async (req, res, next) => {
   try {
-    const ordersArray = await order.read();
-    if (ordersArray.length > 0) {
-      res.status(200).json({ succes: true, response: ordersArray });
+    const orderAndPaginate = {
+      limit: req.query.limit || 20,
+      page: req.query.page || 1,
+      sort: { name: "asc" },
+    };
+    const filter = {};
+    const orders = await order.read({ filter, orderAndPaginate });
+
+    if (orders.totalPages > 0) {
+      return res.json({ statusCode: 200, response: orders });
     } else {
-      res.status(404).json({ success: false, message: "Not found" });
+      return res.json({ statusCode: 404, message: "Not found" });
     }
   } catch (error) {
     next(error);
   }
 });
 
-ordersRouters.get("/:uid", async (req, res, next) => {
+ordersRouters.get("/:oid", async (req, res, next) => {
   try {
-    const uid = req.params.uid;
-    const obj = await order.readOne(uid);
-    
-    if (obj !== null) {
-      res.status(200).json({ succes: true, response: obj });
-    } else {
-      res.status(404).json({ success: false, message: "Not found" });
-    }
+    const { oid } = req.params;
+    const obj = await order.readOne(oid);
+
+    return res.json({ statusCode: 200, response: obj });
   } catch (error) {
     next(error);
   }
@@ -38,7 +51,7 @@ ordersRouters.post("/", propsOrders, async (req, res, next) => {
   try {
     const object = req.body;
     const obj = await order.create(object);
-    res.status(200).json({ success: true, response: obj });
+    return res.json({ statusCode: 201, response: obj });
   } catch (error) {
     return next(error);
   }
@@ -47,14 +60,10 @@ ordersRouters.post("/", propsOrders, async (req, res, next) => {
 ordersRouters.put("/:oid", propsOrdersUpdate, async (req, res, next) => {
   try {
     const oid = req.params.oid;
-    const { quantity, state } = req.body;
-    const obj = await order.update(oid, state, quantity);
+    const data = req.body;
+    const one = await order.update(oid, data);
 
-    if (obj === `La orden con el ID: ${oid} ha sido actualizada`) {
-      res.status(200).json({ succes: true, response: obj });
-    } else {
-      res.status(404).json({ success: false, message: "Not found" });
-    }
+    res.json({ statusCode: 200, response: one });
   } catch (error) {
     next(error);
   }
@@ -63,13 +72,9 @@ ordersRouters.put("/:oid", propsOrdersUpdate, async (req, res, next) => {
 ordersRouters.delete("/:oid", async (req, res, next) => {
   try {
     const oid = req.params.oid;
-    const obj = await order.destroy(oid);
+    const one = await order.destroy(oid);
 
-    if (obj === "Elemento eliminado") {
-      res.status(200).json({ succes: true, response: obj });
-    } else {
-      res.status(404).json({ success: false, message: "Not found" });
-    }
+    return res.json({ statusCode: 200, response: one });
   } catch (error) {
     next(error);
   }

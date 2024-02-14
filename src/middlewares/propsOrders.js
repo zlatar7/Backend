@@ -1,6 +1,6 @@
 function propsOrders(req, res, next) {
-  const { uid, pid, quantity, state } = req.body;
-  if (!uid || !pid || !quantity || !state) {
+  const { user_id, product_id, quantity, state } = req.body;
+  if (!user_id || !product_id || !quantity || !state) {
     const error = new Error(`Uid, Pid, Quantity and State are required`);
     error.statusCode = 404;
     throw error;
