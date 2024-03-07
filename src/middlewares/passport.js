@@ -67,7 +67,7 @@ passport.use(
       try {
         let usuario = await user.readByEmail(profile.id + "@gmail.com");
         if (!usuario) {
-          user = {
+          usuario = {
             email: profile.id + "@gmail.com",
             name: profile.name.givenName,
             lastName: profile.name.familyName,
@@ -78,7 +78,7 @@ passport.use(
         }
         req.session.email = usuario.email;
         req.session.role = usuario.role;
-        return done(null, user);
+        return done(null, usuario);
       } catch (error) {
         return done(error);
       }
@@ -93,7 +93,7 @@ passport.use(
       passReqToCallback: true,
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/api/sessions/github/callback",
+      callbackURL: "http://localhost:8000/api/sessions/github/callback",
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {

@@ -1,25 +1,26 @@
-import "dotenv/config.js";
-
+import env from "./src/utils/env.utils.js";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { engine } from "express-handlebars";
 import morgan from "morgan";
-import socketUtils from "./src/utils/socket.utils.js";
-import dbConnection from "./src/utils/db.utils.js";
 import cookieParser from "cookie-parser"
 import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
-import MongoStore from "connect-mongo";
+// import MongoStore from "connect-mongo";
+import args from "./src/utils/args.utils.js";
 
-import router from "./src/routers/index.routers.js";
+import socketUtils from "./src/utils/socket.utils.js";
+
+import IndexRouter from "./src/routers/index.routers.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
+import dbConnection from "./src/utils/db.utils.js";
 
 //server
 const server = express();
-const PORT = process.env.PORT || 8080;
+const PORT = env.PORT || 8080;
 const ready = () => {
   console.log("server ready on port " + PORT);
   dbConnection();
@@ -47,7 +48,7 @@ server.use(cookieParser(process.env.SECRET_KEY));
     saveUninitialized: true,
   })
 ); */
-server.use(expressSession({
+/* server.use(expressSession({
   secret: process.env.SECRET_SESSION,
   resave: true,
   saveUninitialized: true,
@@ -56,11 +57,12 @@ server.use(expressSession({
     mongoUrl: process.env.DB_LINK 
   })
 })
-)
+) */
 server.use(morgan("dev"));
 
 //endpoints
-server.use("/", router);
+const router = new IndexRouter()
+server.use("/", router.getRouter());
 server.use(errorHandler);
 server.use(pathHandler);
 
@@ -70,3 +72,4 @@ server.set("view engine", "handlebars");
 server.set("views", __dirname + "/src/views");
 
 export { socketServer };
+console.log(args)

@@ -1,27 +1,38 @@
-document.getElementById("signout").addEventListener("click", async ()=>{
+fetch("/", { method: "GET" }).then( res => {
+  const userRole = document.body.getAttribute('data-role'); 
+  console.log(userRole)
+  if (userRole == 0) {
+    document.getElementById("formButton").style.display = "none";
+    document.getElementById("loginButton").style.display = "none";
+    document.getElementById("registerButton").style.display = "none";
+  } else if (userRole == 1) {
+    document.getElementById("registerButton").style.display = "none";
+    document.getElementById("loginButton").style.display = "none";
+    document.getElementById("ordersButton").style.display = "none";
+  } else {    
+    document.getElementById("formButton").style.display = "none";
+    document.getElementById("ordersButton").style.display = "none";
+    document.getElementById("signout").style.display = "none";
+  }
+})
+
+document.querySelector("#signout").addEventListener("click", async () => {
   try {
     const opts = {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
     };
-    let response = await fetch("/api/sessions/signout", opts);
-    response = await response.json();
-    if (response.statusCode === 200) {
-      alert(response.message);
-      localStorage.removeItem("token")
+    let resp = await fetch("/api/sessions/signout", opts);
+    resp = await resp.json();
+
+    if (resp.statusCode === 200) {
+      alert(resp.response);
+      localStorage.removeItem("token");
       location.replace("/");
+    } else {
+      alert(resp.message);
     }
   } catch (error) {
     console.log(error);
-  }  
-})
-         /* else {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formButton"))
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersButton"))
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#signout"))
-    }
-    if (res.response?.role===0) {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formButton"))
-    } else if (res.response?.role===1) {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersButton"))
-    } */
+  }
+});

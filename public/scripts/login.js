@@ -10,10 +10,10 @@ selector.addEventListener("click", async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
-    let response = await fetch("/api/sessions/login", opts);
-    response = await response.json();
-    alert(response.message);
-    if (response.statusCode === 200) {
+    let resp = await fetch("/api/sessions/login", opts);
+    resp = await resp.json()
+    if (resp.statusCode === 200) {
+      alert(resp.response);
       location.replace("/");
     }
   } catch (error) {
