@@ -1,32 +1,29 @@
 import { fork } from "child_process";
 import CustomRouter from "../CustomRouter.js";
-import ProductsRouter from "./products.routers.js";
-import OrderRouter from "./orders.routers.js";
-import UserRouter from "./users.routers.js";
-import SessionRouter from "./sessions.routers.js";
+import usersRouter from "./users.routers.js";
+import productsRouter from "./products.routers.js";
+import ordersRouter from "./orders.routers.js";
+import sessionsRouter from "./sessions.routers.js";
 
-const product = new ProductsRouter();
-const order = new OrderRouter();
-const user = new UserRouter();
-const session = new SessionRouter();
-
-export default class ApiRouter extends CustomRouter {
+class ApiRouter extends CustomRouter {
   init() {
-    this.use("/users", user.getRouter());
-    this.use("/products", product.getRouter());
-    this.use("/orders", order.getRouter());
-    this.use("/sessions", session.getRouter());
+    this.use("/users", usersRouter);
+    this.use("/products", productsRouter);
+    this.use("/orders", ordersRouter);
+    this.use("/sessions", sessionsRouter);
     this.read("/sum", ["PUBLIC"], async (req, res, next) => {
       try {
-       const child = fork(".src/utils/sum.utils.js")
-        child.send("start")
-        child.on("message", (result)=>{
-          res.success200(result)
-        })
+        const child = fork(".src/utils/sum.utils.js");
+        child.send("start");
+        child.on("message", (result) => {
+          res.success200(result);
+        });
       } catch (error) {
-        return next(error)
+        return next(error);
       }
-
     });
   }
 }
+
+const apiRouter = new ApiRouter();
+export default apiRouter.getRouter();

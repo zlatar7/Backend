@@ -7,12 +7,12 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser"
 import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
-// import MongoStore from "connect-mongo";
+import cors from "cors"
 import args from "./src/utils/args.utils.js";
 
 import socketUtils from "./src/utils/socket.utils.js";
 
-import IndexRouter from "./src/routers/index.routers.js";
+import router from "./src/routers/index.routers.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
@@ -24,6 +24,7 @@ const PORT = env.PORT || 8080;
 const ready = () => {
   console.log("server ready on port " + PORT);
   dbConnection();
+  console.log("mode " + args.env);
 };
 const httpServer = createServer(server);
 const socketServer = new Server(httpServer);
@@ -32,6 +33,7 @@ socketServer.on("connection", socketUtils);
 
 const FileStore = sessionFileStore(expressSession);
 //middlewares
+server.use(cors({ origin: true, credentials: true}));
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(express.static(__dirname + "/public"));
@@ -61,8 +63,7 @@ server.use(cookieParser(process.env.SECRET_KEY));
 server.use(morgan("dev"));
 
 //endpoints
-const router = new IndexRouter()
-server.use("/", router.getRouter());
+server.use("/", router);
 server.use(errorHandler);
 server.use(pathHandler);
 
@@ -72,4 +73,3 @@ server.set("view engine", "handlebars");
 server.set("views", __dirname + "/src/views");
 
 export { socketServer };
-console.log(args)

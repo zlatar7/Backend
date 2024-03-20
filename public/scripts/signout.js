@@ -1,6 +1,5 @@
 fetch("/", { method: "GET" }).then( res => {
   const userRole = document.body.getAttribute('data-role'); 
-  console.log(userRole)
   if (userRole == 0) {
     document.getElementById("formButton").style.display = "none";
     document.getElementById("loginButton").style.display = "none";
