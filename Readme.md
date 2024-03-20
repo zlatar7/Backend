@@ -2,3 +2,4 @@ El proyecto se basa en la creacion de una api-rest donde se manejan datos de "Us
 Los endpoints estan todos ubicados en la carpeta "routers" con sus respectivas rutas, middlewares y funciones.
 Tambien se ha agregado el uso de "sessions" con Mongo y los endpoints de login, signout y register.
 Ademas se ha implementado el uso de servidor "socket.io" para hacer carga y renderizacion de productos en tiempo real hacia todos los clientes conectados al puerto localhost:8000
+Ademas se ha implementado el uso de MongoDB y Mongoose para el manejo de la base de datos. De esta manera, hay una nueva persistencia, carga y renderizacion de todos los datos a través de este servicio junto con la librería handlebars.
