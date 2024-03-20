@@ -5,20 +5,29 @@
     <form style="margin: auto" class="w-100 p-2 m-4 bg-light bg-opacity-25">
       
       <fieldset class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com"/>
+      </fieldset>
+      <fieldset class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password"/>
+      </fieldset>
+      <fieldset class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" />
       </fieldset>
       <fieldset class="mb-3">
-        <label for="photo" class="form-label">Photo</label>
-        <input type="text" class="form-control" id="photo"/>
+        <label for="lastName" class="form-label">Lastname</label>
+        <input type="text" class="form-control" id="lastName" />
       </fieldset>
       <fieldset class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="ejemplo@gmail.com"/>
+        <label for="photo" class="form-label">Url Photo</label>
+        <input type="text" class="form-control" id="photo"/>
       </fieldset>
       
-      <button id="newEvent" type="button" class="w-100 btn btn-primary mt-4">SIGN IN</button>
+      <button id="register" type="button" class="w-100 btn btn-primary mt-4">REGISTER</button>
     
     </form>
 
 </main>
+<script src="/scripts/register.js"></script>

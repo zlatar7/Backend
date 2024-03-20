@@ -4,9 +4,9 @@
   "description": "Creacion de los archivos userManager y productManager, con sus respectivas clases, para la insercion y lectura de \"usuarios\" y \"productos\". Las funciones son asincronas debido a que fueron hechas con \"fyle system\".",
   "main": "productManager.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js --env dev",
+    "test": "nodemon server.js --env test"
   },
   "repository": {
     "type": "git",
@@ -20,15 +20,29 @@
   },
   "homepage": "https://github.com/zlatar7/Backend#readme",
   "dependencies": {
+    "-": "^0.0.1",
+    "bcrypt": "^5.1.1",
     "bootstrap-icons": "^1.11.3",
+    "commander": "^12.0.0",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "local": "^0.3.3",
     "mongoose": "^8.1.1",
     "mongoose-paginate-v2": "^1.8.0",
     "morgan": "^1.10.0",
     "node": "^21.2.0",
     "nodemon": "^3.0.2",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.5.0",
     "socket.io": "^4.7.3"
   },
   "type": "module"
